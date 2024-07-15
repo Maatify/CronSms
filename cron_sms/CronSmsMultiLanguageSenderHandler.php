@@ -35,7 +35,7 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
         [$t, $c] = Customer::obj()->InnerJoinThisTableWithUniqueCols($this->tableName, ['msg_pref_lang_id' => 1]);
         return $this->Rows("$this->tableName $t",
             "`$this->tableName`.*, $c",
-            "`$this->tableName`.`status` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC ",
+            "`$this->tableName`.`status` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10",
             [0, $type_id]);
     }
 
@@ -43,7 +43,10 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
     {
         // prepare sms sender
         $this->InitiateListToSend();
+    }
 
+    protected function Send(): void
+    {
         if(!empty($this->list_to_send)){
             foreach ($this->list_to_send as $item){
                 $message = match ($item['type_id']) {
@@ -55,14 +58,15 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
                     self::TYPE_TEMP_PASSWORD
                     => (CronSmsTypeMessage::obj()->
                         MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? : AppFunctions::TempPasswordText())
-                                               . PHP_EOL
-                                               . (new CronSMSEncryption())->DeHashed($item['message']),
+                       . PHP_EOL
+                       . (new CronSMSEncryption())->DeHashed($item['message']),
                     default => $item['message'],
                 };
                 if(SmsSender::obj()->SendSms($item['phone'], $message)){
                     $this->SentMarker($item[$this->identify_table_id_col_name]);
                 }
             }
+            $this->InitiateListToSend();
         }
     }
 }

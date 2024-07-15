@@ -43,11 +43,26 @@ abstract class CronSmsSenderHandler extends CronSms
         return $this->NotSentByType(self::TYPE_MESSAGE);
     }
 
+    private int $trying = 0;
+
     protected function InitiateListToSend(): void
     {
-        if(!($this->list_to_send = $this->NotSentOtp())){
-            if(!($this->list_to_send = $this->NotSentPasswords())){
-                $this->list_to_send = $this->NotSentMessage();
+        if($this->trying < 5) {
+            if ($this->list_to_send = $this->NotSentOtp()) {
+                $this->trying++;
+                $this->Send();
+            } else {
+                if ($this->list_to_send = $this->NotSentPasswords()) {
+                    $this->trying++;
+                    $this->Send();
+                } else {
+                    if ($this->list_to_send = $this->NotSentMessage()) {
+                        if($this->trying < 5){
+                            $this->trying = 5;
+                        }
+                        $this->Send();
+                    }
+                }
             }
         }
     }

@@ -36,7 +36,10 @@ class CronSmsSingleLanguageSenderHandler extends CronSmsSenderHandler
     {
         // prepare sms sender
         $this->InitiateListToSend();
+    }
 
+    protected function Send(): void
+    {
         if(!empty($this->list_to_send)){
             foreach ($this->list_to_send as $item){
                 $message = match ($item['type_id']) {
@@ -48,6 +51,7 @@ class CronSmsSingleLanguageSenderHandler extends CronSmsSenderHandler
                     $this->SentMarker($item[$this->identify_table_id_col_name]);
                 }
             }
+            $this->InitiateListToSend();
         }
     }
 }
