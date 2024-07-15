@@ -34,7 +34,7 @@ class CronSmsPortal extends DbPortalHandler
         ['ct_id', ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         ['status', ValidatorConstantsTypes::Status, ValidatorConstantsValidators::Optional],
         ['type_id', ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
-        ['phone', ValidatorConstantsTypes::Bool, ValidatorConstantsValidators::Optional],
+        ['phone', ValidatorConstantsTypes::Phone, ValidatorConstantsValidators::Optional],
     ];
 
     public static function obj(): self
