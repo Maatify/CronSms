@@ -15,6 +15,7 @@ composer require maatify/cron-sms
 
 ## Database Structure
 
+## `cron_sms` Structure used in single and multi language
 ### Table structure for table `cron_sms`
 ```MYSQL
 
@@ -55,6 +56,7 @@ ALTER TABLE `cron_sms`
 COMMIT;
 ```
 
+## Next Structures for multi-language
 ### Table structure for table `cron_sms_type`
 ```MYSQL
 
