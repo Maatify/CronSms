@@ -23,7 +23,7 @@ abstract class CronSmsSenderHandler extends CronSms
     protected function SentMarker(int $cron_id): void
     {
         $this->Edit([
-            'is_sent'     => 1,
+            'status'     => 1,
             'sent_time'   => AppFunctions::CurrentDateTime(),
         ], "`$this->identify_table_id_col_name` = ? ", [$cron_id]);
     }

@@ -35,7 +35,7 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
         [$t, $c] = Customer::obj()->InnerJoinThisTableWithUniqueCols($this->tableName, ['msg_pref_lang_id' => 1]);
         return $this->Rows("$this->tableName $t",
             "`$this->tableName`.*, $c",
-            "`$this->tableName`.`is_sent` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC ",
+            "`$this->tableName`.`status` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC ",
             [0, $type_id]);
     }
 

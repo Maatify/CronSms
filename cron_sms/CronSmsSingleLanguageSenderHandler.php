@@ -29,7 +29,7 @@ class CronSmsSingleLanguageSenderHandler extends CronSmsSenderHandler
 
     protected function NotSentByType(int $type_id): array
     {
-        return $this->RowsThisTable('*', "`is_sent` = ? AND `type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10", [0, $type_id]);
+        return $this->RowsThisTable('*', "`status` = ? AND `type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10", [0, $type_id]);
     }
 
     public function CronSend(): void

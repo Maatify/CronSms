@@ -29,7 +29,7 @@ abstract class CronSms extends DbConnector
             'phone'                          => 0,
             'message'                        => 0,
             'record_time'                    => 0,
-            'is_sent'                        => 1,
+            'sent_status'                    => 1,
             'sent_time'                      => 0,
         ];
 
@@ -37,9 +37,20 @@ abstract class CronSms extends DbConnector
     protected string $tableAlias = self::TABLE_ALIAS;
     protected string $identify_table_id_col_name = self::IDENTIFY_TABLE_ID_COL_NAME;
     protected array $cols = self::Cols;
-    const TYPE_MESSAGE       = 0;
-    const TYPE_OTP           = 1;
-    const TYPE_TEMP_PASSWORD = 2;
+    const TYPE_MESSAGE       = 1;
+    const TYPE_OTP           = 2;
+    const TYPE_TEMP_PASSWORD = 3;
+
+    const ALL_TYPES_NAME = [
+        self::TYPE_MESSAGE => 'message',
+        self::TYPE_OTP => 'OTP',
+        self::TYPE_TEMP_PASSWORD => 'Temp Password',
+    ];
+
+    public function AllTypes(): array
+    {
+        return self::ALL_TYPES_NAME;
+    }
 
     protected function AddCron(int $ct_id, string $phone, string $message, int $type_id = 0): void
     {
@@ -49,7 +60,7 @@ abstract class CronSms extends DbConnector
             'phone'       => $phone,
             'message'     => $message,
             'record_time' => AppFunctions::CurrentDateTime(),
-            'is_sent'     => 0,
+            'sent_status' => 0,
             'sent_time'   => AppFunctions::DefaultDateTime(),
         ]);
     }
