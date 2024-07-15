@@ -13,8 +13,9 @@ composer require maatify/cron-sms
 ```
 
 
-# Database Structure
+## Database Structure
 
+### Table structure for table `cron_sms`
 ```MYSQL
 
 --
@@ -51,5 +52,64 @@ ALTER TABLE `cron_sms`
 --
 ALTER TABLE `cron_sms`
   MODIFY `cron_id` int NOT NULL AUTO_INCREMENT;
+COMMIT;
+```
+
+### Table structure for table `cron_sms_type`
+```MYSQL
+
+--
+-- Table structure for table `cron_sms_type`
+--
+
+CREATE TABLE `cron_sms_type` (
+                                 `type_id` int NOT NULL,
+                                 `type_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cron_sms_type`
+--
+ALTER TABLE `cron_sms_type`
+    ADD PRIMARY KEY (`type_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cron_sms_type`
+--
+ALTER TABLE `cron_sms_type`
+    MODIFY `type_id` int NOT NULL AUTO_INCREMENT;
+COMMIT;
+```
+
+### Table structure for table `cron_sms_type_message`
+```MYSQL
+
+--
+-- Table structure for table `cron_sms_type_message`
+--
+
+CREATE TABLE `cron_sms_type_message` (
+                                         `type_id` int NOT NULL DEFAULT '1',
+                                         `language_id` int NOT NULL DEFAULT '1',
+                                         `message` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cron_sms_type_message`
+--
+ALTER TABLE `cron_sms_type_message`
+    ADD UNIQUE KEY `type_id` (`type_id`,`language_id`) USING BTREE;
 COMMIT;
 ```
