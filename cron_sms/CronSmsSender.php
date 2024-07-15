@@ -11,11 +11,7 @@
 
 namespace Maatify\CronSms;
 
-use App\Assist\AppFunctions;
-use App\Assist\Encryptions\CronSMSEncryption;
-use App\Services\Providers\Sms\SmsSender;
-
-class CronSmsSender extends CronSms
+class CronSmsSender
 {
     private static self $instance;
 
@@ -24,59 +20,23 @@ class CronSmsSender extends CronSms
         if (empty(self::$instance)) {
             self::$instance = new self();
         }
+
         return self::$instance;
     }
 
-    private function SentMarker(int $id): void
-    {
-        $this->Edit([
-            'is_sent'     => 1,
-            'sent_time'   => AppFunctions::CurrentDateTime(),
-        ], "`$this->identify_table_id_col_name` = ? ", [$id]);
-    }
+    private CronSmsMultiLanguageSenderHandler|CronSmsSingleLanguageSenderHandler $sender;
 
-    private function NotSentOtp(): array
+    public function __construct()
     {
-        return $this->NotSentByType(self::TYPE_OTP);
-    }
-
-    private function NotSentPasswords(): array
-    {
-        return $this->NotSentByType(self::TYPE_TEMP_PASSWORD);
-    }
-
-    private function NotSentMessage(): array
-    {
-        return $this->NotSentByType(self::TYPE_MESSAGE);
-    }
-
-    private function NotSentByType(int $type_id): array
-    {
-        return $this->RowsThisTable('*', "`is_sent` = ? AND `type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10", [0, $type_id]);
+        if(empty($_ENV['IS_SMS_MULTI_LANGUAGE'])) {
+            $this->sender = new CronSmsSingleLanguageSenderHandler();
+        }else{
+            $this->sender = new CronSmsMultiLanguageSenderHandler();
+        }
     }
 
     public function CronSend(): void
     {
-        // prepare sms sender
-        if(!($all = $this->NotSentOtp())){
-
-            if(!($all = $this->NotSentPasswords())){
-
-                $all = $this->NotSentMessage();
-            }
-        }
-
-        if(!empty($all)){
-            foreach ($all as $item){
-                $message = match ($item['type_id']) {
-                    self::TYPE_OTP => AppFunctions::OTPText() . (new CronSMSEncryption())->DeHashed($item['message']),
-                    self::TYPE_TEMP_PASSWORD => AppFunctions::TempPasswordText() . (new CronSMSEncryption())->DeHashed($item['message']),
-                    default => $item['message'],
-                };
-                if(SmsSender::obj()->SendSms($item['phone'], $message)){
-                    $this->SentMarker($item[$this->identify_table_id_col_name]);
-                }
-            }
-        }
+        $this->sender->CronSend();
     }
 }
