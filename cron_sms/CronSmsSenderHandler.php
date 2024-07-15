@@ -14,6 +14,7 @@ namespace Maatify\CronSms;
 use App\Assist\AppFunctions;
 use App\Assist\Encryptions\CronSMSEncryption;
 use App\Services\Providers\Sms\SmsSender;
+use Maatify\QueueManager\QueueManager;
 
 abstract class CronSmsSenderHandler extends CronSms
 {
@@ -45,6 +46,7 @@ abstract class CronSmsSenderHandler extends CronSms
 
     protected function InitiateListToSend(): void
     {
+        QueueManager::obj()->Sms();
         if(!($this->list_to_send = $this->NotSentOtp())){
             if(!($this->list_to_send = $this->NotSentPasswords())){
                 $this->list_to_send = $this->NotSentMessage();
