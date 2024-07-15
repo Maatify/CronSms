@@ -15,7 +15,7 @@ composer require maatify/cron-sms
 
 ## Database Structure
 
-## `cron_sms` Structure used in single and multi language
+## `cron_sms` Structure used in single-language and multi-language
 ### Table structure for table `cron_sms`
 ```MYSQL
 
@@ -68,6 +68,17 @@ CREATE TABLE `cron_sms_type` (
                                  `type_id` int NOT NULL,
                                  `type_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+--
+-- Dumping data for table `cron_sms_type`
+--
+
+INSERT INTO `cron_sms_type` (`type_id`, `type_name`) VALUES
+                                                         (1, 'message'),
+                                                         (2, 'otp'),
+                                                         (3, 'forget-password');
+
 
 --
 -- Indexes for dumped tables

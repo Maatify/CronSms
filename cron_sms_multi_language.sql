@@ -51,6 +51,18 @@ CREATE TABLE `cron_sms_type` (
 
 -- --------------------------------------------------------
 
+
+--
+-- Dumping data for table `cron_sms_type`
+--
+
+INSERT INTO `cron_sms_type` (`type_id`, `type_name`) VALUES
+                                                         (1, 'message'),
+                                                         (2, 'otp'),
+                                                         (3, 'forget-password');
+
+
+
 --
 -- Table structure for table `cron_sms_type_message`
 --
