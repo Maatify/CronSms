@@ -87,4 +87,9 @@ class CronSmsPortal extends DbPortalHandler
             $result
         );
     }
+
+    public function CronSmsInitialize(): void
+    {
+        Json::Success(CronSms::ALL_TYPES_NAME, line: $this->class_name . __LINE__);
+    }
 }
