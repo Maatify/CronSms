@@ -57,7 +57,7 @@ class CronSmsTypePortal extends ParentClassHandler
     protected array $child_classes = [];
 
     // to use in add if child classes have language_id
-    protected array $child_classe_languages = [];
+    protected array $child_classe_languages = [CronSmsTypeMessagePortal::class];
     private static self $instance;
 
     public static function obj(): self
