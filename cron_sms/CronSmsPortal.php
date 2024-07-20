@@ -82,6 +82,9 @@ class CronSmsPortal extends DbPortalHandler
             $result['data'] = array_map(function ($item) {
                 $types = CronSms::ALL_TYPES_NAME;
                 $item['type_name'] = $types[$item['type_id']];
+                if(in_array($item['type_id'], [CronSms::TYPE_TEMP_PASSWORD, CronSms::TYPE_OTP])) {
+                    $item['message'] = "{Encrypted}";
+                }
                 return $item;
             }, $result['data']);
         }
