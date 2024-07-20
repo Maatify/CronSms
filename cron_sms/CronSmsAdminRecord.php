@@ -11,7 +11,7 @@
 
 namespace Maatify\CronSms;
 
-class CronSmsAdminRecord extends CronSmsRecord
+class CronSmsAdminRecord extends CronSmsRecord implements CronRecordInterface
 {
     const RECIPIENT_TYPE             = 'admin';
     protected string $recipient_type = self::RECIPIENT_TYPE;
