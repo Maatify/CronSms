@@ -25,7 +25,7 @@ abstract class CronSms extends DbConnector
     const Cols                       =
         [
             self::IDENTIFY_TABLE_ID_COL_NAME => 1,
-            'ct_id'                          => 1,
+            'recipient_id'                   => 1,
             'type_id'                        => 1,
             'phone'                          => 0,
             'message'                        => 0,
@@ -45,8 +45,8 @@ abstract class CronSms extends DbConnector
     const TYPE_TEMP_PASSWORD = 3;
 
     const ALL_TYPES_NAME = [
-        self::TYPE_MESSAGE => 'message',
-        self::TYPE_OTP => 'OTP',
+        self::TYPE_MESSAGE       => 'message',
+        self::TYPE_OTP           => 'OTP',
         self::TYPE_TEMP_PASSWORD => 'Temp Password',
     ];
     protected string $recipient_type;
@@ -61,12 +61,12 @@ abstract class CronSms extends DbConnector
         $this->Add([
             'recipient_id'   => $recipient_id,
             'recipient_type' => $this->recipient_type,
-            'type_id'     => $type_id,
-            'phone'       => $phone,
-            'message'     => $message,
-            'record_time' => AppFunctions::CurrentDateTime(),
-            'status' => 0,
-            'sent_time'   => AppFunctions::DefaultDateTime(),
+            'type_id'        => $type_id,
+            'phone'          => $phone,
+            'message'        => $message,
+            'record_time'    => AppFunctions::CurrentDateTime(),
+            'status'         => 0,
+            'sent_time'      => AppFunctions::DefaultDateTime(),
         ]);
     }
 
@@ -76,12 +76,12 @@ abstract class CronSms extends DbConnector
         $this->Add([
             'recipient_id'   => $this->current_row['recipient_id'],
             'recipient_type' => $this->current_row['recipient_type'],
-            'type_id'     => $this->current_row['type_id'],
-            'phone'       => $this->current_row['phone'],
-            'message'     => $this->current_row['message'],
-            'record_time' => AppFunctions::CurrentDateTime(),
-            'status' => 0,
-            'sent_time'   => AppFunctions::DefaultDateTime(),
+            'type_id'        => $this->current_row['type_id'],
+            'phone'          => $this->current_row['phone'],
+            'message'        => $this->current_row['message'],
+            'record_time'    => AppFunctions::CurrentDateTime(),
+            'status'         => 0,
+            'sent_time'      => AppFunctions::DefaultDateTime(),
         ]);
         $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
         $log = $this->logger_keys;
@@ -96,10 +96,11 @@ abstract class CronSms extends DbConnector
         $types = array();
         foreach (CronSms::ALL_TYPES_NAME as $key => $type) {
             $types[] = [
-                'type_id' => $key,
+                'type_id'   => $key,
                 'type_name' => $type,
             ];
         }
+
         return $types;
     }
 }

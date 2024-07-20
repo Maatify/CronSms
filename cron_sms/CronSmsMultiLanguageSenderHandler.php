@@ -12,7 +12,7 @@
 namespace Maatify\CronSms;
 
 use App\Assist\Encryptions\CronSMSEncryption;
-use App\DB\Tables\Cron\CronSmsTypeMessage;
+use App\DB\Tables\Cron\Sms\CronSmsTypeMessage;
 use App\DB\Tables\Customer\Customer;
 use App\DB\Tables\DbLanguage;
 use App\Services\Providers\Sms\SmsSender;
