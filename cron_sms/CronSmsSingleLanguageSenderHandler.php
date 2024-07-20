@@ -11,7 +11,6 @@
 
 namespace Maatify\CronSms;
 
-use App\Assist\AppFunctions;
 use App\Assist\Encryptions\CronSMSEncryption;
 use App\Services\Providers\Sms\SmsSender;
 
