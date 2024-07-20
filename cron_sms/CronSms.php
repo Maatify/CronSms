@@ -13,6 +13,7 @@ namespace Maatify\CronSms;
 
 use App\Assist\AppFunctions;
 use App\DB\DBS\DbConnector;
+use Maatify\Json\Json;
 
 abstract class CronSms extends DbConnector
 {
@@ -63,5 +64,25 @@ abstract class CronSms extends DbConnector
             'sent_status' => 0,
             'sent_time'   => AppFunctions::DefaultDateTime(),
         ]);
+    }
+
+    public function Resend(): void
+    {
+        $this->ValidatePostedTableId();
+        $this->AddCron(
+            $this->current_row['ct_id'],
+            $this->current_row['type_id'],
+            $this->current_row['phone'],
+            $this->current_row['message'],
+        );
+        $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
+        $log = $this->logger_keys;
+        $log['change'] = 'Duplicate cron id: ' . $this->current_row[$this->identify_table_id_col_name];
+        $changes[] = ['ct_id', '', $this->current_row['ct_id']];
+        $changes[] = ['type_id', '', $this->current_row['type_id']];
+        $changes[] = ['phone', '', $this->current_row['phone']];
+        $changes[] = ['message', '', $this->current_row['message']];
+        $this->Logger($log, $changes, $_GET['action']);
+        Json::Success(line: $this->class_name . __LINE__);
     }
 }
