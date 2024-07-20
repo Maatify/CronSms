@@ -49,16 +49,18 @@ abstract class CronSms extends DbConnector
         self::TYPE_OTP => 'OTP',
         self::TYPE_TEMP_PASSWORD => 'Temp Password',
     ];
+    protected string $recipient_type;
 
     public function AllTypes(): array
     {
         return self::ALL_TYPES_NAME;
     }
 
-    protected function AddCron(int $ct_id, string $phone, string $message, int $type_id = 0): void
+    protected function AddCron(int $recipient_id, string $phone, string $message, int $type_id = 0): void
     {
         $this->Add([
-            'ct_id'       => $ct_id,
+            'recipient_id'   => $recipient_id,
+            'recipient_type' => $this->recipient_type,
             'type_id'     => $type_id,
             'phone'       => $phone,
             'message'     => $message,
@@ -71,20 +73,33 @@ abstract class CronSms extends DbConnector
     public function Resend(): void
     {
         $this->ValidatePostedTableId();
-        $this->AddCron(
-            $this->current_row['ct_id'],
-            $this->current_row['phone'],
-            $this->current_row['message'],
-            $this->current_row['type_id'],
-        );
+        $this->Add([
+            'recipient_id'   => $this->current_row['recipient_id'],
+            'recipient_type' => $this->current_row['recipient_type'],
+            'type_id'     => $this->current_row['type_id'],
+            'phone'       => $this->current_row['phone'],
+            'message'     => $this->current_row['message'],
+            'record_time' => AppFunctions::CurrentDateTime(),
+            'status' => 0,
+            'sent_time'   => AppFunctions::DefaultDateTime(),
+        ]);
         $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
         $log = $this->logger_keys;
+        $changes = array();
         $log['change'] = 'Duplicate cron id: ' . $this->current_row[$this->identify_table_id_col_name];
-        $changes[] = ['ct_id', '', $this->current_row['ct_id']];
-        $changes[] = ['type_id', '', $this->current_row['type_id']];
-        $changes[] = ['phone', '', $this->current_row['phone']];
-        $changes[] = ['message', '', $this->current_row['message']];
         $this->Logger($log, $changes, $_GET['action']);
         Json::Success(line: $this->class_name . __LINE__);
+    }
+
+    public function InitializeArray(): array
+    {
+        $types = array();
+        foreach (CronSms::ALL_TYPES_NAME as $key => $type) {
+            $types[] = [
+                'type_id' => $key,
+                'type_name' => $type,
+            ];
+        }
+        return $types;
     }
 }

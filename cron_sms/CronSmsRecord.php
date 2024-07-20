@@ -13,19 +13,8 @@ namespace Maatify\CronSms;
 
 use App\Assist\Encryptions\CronSMSEncryption;
 
-class CronSmsRecord extends CronSms
+abstract class CronSmsRecord extends CronSms
 {
-    private static self $instance;
-
-    public static function obj(): self
-    {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
     public function RecordMessage(int $ct_id, string $phone, string $message): void
     {
         $this->AddCron($ct_id, $phone, $message, self::TYPE_MESSAGE);
