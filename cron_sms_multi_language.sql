@@ -28,14 +28,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cron_sms` (
-  `cron_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL DEFAULT '1' COMMENT '1=message; 2=confirm; 3=Password',
-  `ct_id` int(11) NOT NULL DEFAULT '0',
-  `phone` varchar(128) NOT NULL DEFAULT '',
-  `message` mediumtext,
-  `record_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `sent_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00'
+    `cron_id` int(11) NOT NULL,
+    `type_id` int(11) NOT NULL DEFAULT '1' COMMENT '1=message; 2=confirm; 3=Password',
+    `recipient_id` int(11) NOT NULL DEFAULT '0',
+    `recipient_type` varchar(64) NOT NULL DEFAULT '',
+    `phone` varchar(128) NOT NULL DEFAULT '',
+    `message` mediumtext,
+    `record_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
+    `status` tinyint(1) NOT NULL DEFAULT '0',
+    `sent_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
