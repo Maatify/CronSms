@@ -24,16 +24,16 @@ composer require maatify/cron-sms
 --
 
 CREATE TABLE `cron_sms` (
-  `cron_id` int NOT NULL,
-  `type_id` int NOT NULL DEFAULT '0' COMMENT '1=message; 2=confirm; 3=Password',
-  `ct_id` int NOT NULL DEFAULT '0',
-  `phone` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `message` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `record_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `sent_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+    `cron_id` int(11) NOT NULL,
+    `type_id` int(11) NOT NULL DEFAULT '1' COMMENT '1=message; 2=confirm; 3=Password',
+    `recipient_id` int(11) NOT NULL DEFAULT '0',
+    `recipient_type` varchar(64) NOT NULL DEFAULT '',
+    `phone` varchar(128) NOT NULL DEFAULT '',
+    `message` mediumtext,
+    `record_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
+    `status` tinyint(1) NOT NULL DEFAULT '0',
+    `sent_time` datetime NOT NULL DEFAULT '1900-01-01 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 --
 -- Indexes for dumped tables
 --
@@ -75,9 +75,9 @@ CREATE TABLE `cron_sms_type` (
 --
 
 INSERT INTO `cron_sms_type` (`type_id`, `type_name`) VALUES
-                                                         (1, 'message'),
-                                                         (2, 'otp'),
-                                                         (3, 'forget-password');
+     (1, 'message'),
+     (2, 'otp'),
+     (3, 'forget-password');
 
 
 --
@@ -110,9 +110,9 @@ COMMIT;
 --
 
 CREATE TABLE `cron_sms_type_message` (
-                                         `type_id` int NOT NULL DEFAULT '1',
-                                         `language_id` int NOT NULL DEFAULT '1',
-                                         `message` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+     `type_id` int NOT NULL DEFAULT '1',
+     `language_id` int NOT NULL DEFAULT '1',
+     `message` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

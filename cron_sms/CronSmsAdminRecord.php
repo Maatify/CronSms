@@ -3,9 +3,9 @@
  * @PHP       Version >= 8.0
  * @copyright ©2024 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since     2024-07-26 11:57 PM
+ * @since     2024-07-26 10:59 PM
  * @link      https://www.maatify.dev Maatify.com
- * @link      https://github.com/Maatify/CronEmail  view project on GitHub
+ * @link      https://github.com/Maatify/CronSms  view project on GitHub
  * @Maatify   DB :: CronEmail
  */
 
