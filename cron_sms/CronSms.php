@@ -61,7 +61,7 @@ abstract class CronSms extends DbConnector
             'phone'       => $phone,
             'message'     => $message,
             'record_time' => AppFunctions::CurrentDateTime(),
-            'sent_status' => 0,
+            'status' => 0,
             'sent_time'   => AppFunctions::DefaultDateTime(),
         ]);
     }
