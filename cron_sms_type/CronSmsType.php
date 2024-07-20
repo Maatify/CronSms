@@ -41,4 +41,5 @@ class CronSmsType extends DbConnector
 
         return self::$instance;
     }
+
 }

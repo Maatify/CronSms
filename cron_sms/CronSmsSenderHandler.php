@@ -53,4 +53,20 @@ abstract class CronSmsSenderHandler extends CronSms
             }
         }
     }
+
+    protected function ReplaceTemplateCode(string $template, string $code): string
+    {
+        return str_replace("{replaced_code}", $code, $template);
+    }
+
+    public function OTPText(): string
+    {
+
+        return 'your OTP code is {replaced_code}. For your account security, don\'t share this code with anyone.';
+    }
+
+    public function TempPasswordText(): string
+    {
+        return 'your temp password is {replaced_code}. For your account security, don\'t share this password with anyone.';
+    }
 }

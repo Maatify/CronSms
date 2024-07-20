@@ -47,19 +47,24 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
 
     protected function Send(): void
     {
+
         if(!empty($this->list_to_send)){
             foreach ($this->list_to_send as $item){
                 $message = match ($item['type_id']) {
-                    self::TYPE_OTP
-                    => (CronSmsTypeMessage::obj()->
-                        MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? : AppFunctions::OTPText())
-                       . PHP_EOL
-                       . (new CronSMSEncryption())->DeHashed($item['message']),
-                    self::TYPE_TEMP_PASSWORD
-                    => (CronSmsTypeMessage::obj()->
-                        MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? : AppFunctions::TempPasswordText())
-                       . PHP_EOL
-                       . (new CronSMSEncryption())->DeHashed($item['message']),
+                    self::TYPE_OTP =>
+                        $this->ReplaceTemplateCode(
+                            (CronSmsTypeMessage::obj()->
+                            MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->OTPText()),
+                            (new CronSMSEncryption())->DeHashed($item['message'])
+                        ),
+
+                    self::TYPE_TEMP_PASSWORD =>
+                        $this->ReplaceTemplateCode(
+                            (CronSmsTypeMessage::obj()->
+                            MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->TempPasswordText()),
+                            (new CronSMSEncryption())->DeHashed($item['message'])
+                        ),
+
                     default => $item['message'],
                 };
                 if(SmsSender::obj()->SendSms($item['phone'], $message)){

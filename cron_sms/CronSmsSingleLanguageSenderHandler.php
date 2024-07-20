@@ -43,9 +43,16 @@ class CronSmsSingleLanguageSenderHandler extends CronSmsSenderHandler
         if(!empty($this->list_to_send)){
             foreach ($this->list_to_send as $item){
                 $message = match ($item['type_id']) {
-                    self::TYPE_OTP => AppFunctions::OTPText() . (new CronSMSEncryption())->DeHashed($item['message']),
-                    self::TYPE_TEMP_PASSWORD => AppFunctions::TempPasswordText() . (new CronSMSEncryption())->DeHashed($item['message']),
-                    default => $item['message'],
+                    self::TYPE_OTP =>
+                        $this->ReplaceTemplateCode(
+                            $this->OTPText(),
+                            (new CronSMSEncryption())->DeHashed($item['message'])
+                        ),
+                    self::TYPE_TEMP_PASSWORD =>
+                        $this->ReplaceTemplateCode(
+                            $this->TempPasswordText(),
+                            (new CronSMSEncryption())->DeHashed($item['message'])
+                        ),
                 };
                 if(SmsSender::obj()->SendSms($item['phone'], $message)){
                     $this->SentMarker($item[$this->identify_table_id_col_name]);
