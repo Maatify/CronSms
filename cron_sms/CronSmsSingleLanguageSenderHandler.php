@@ -35,6 +35,7 @@ class CronSmsSingleLanguageSenderHandler extends CronSmsSenderHandler
     {
         // prepare sms sender
         $this->InitiateListToSend();
+        $this->Send();
     }
 
     protected function Send(): void
