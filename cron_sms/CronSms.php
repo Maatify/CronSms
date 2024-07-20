@@ -71,9 +71,9 @@ abstract class CronSms extends DbConnector
         $this->ValidatePostedTableId();
         $this->AddCron(
             $this->current_row['ct_id'],
-            $this->current_row['type_id'],
             $this->current_row['phone'],
             $this->current_row['message'],
+            $this->current_row['type_id'],
         );
         $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
         $log = $this->logger_keys;
