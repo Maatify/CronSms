@@ -31,12 +31,25 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
 
     protected function NotSentByType(int $type_id): array
     {
+        $customer_table_name = Customer::TABLE_NAME;
+        $customer_col_name = Customer::IDENTIFY_TABLE_ID_COL_NAME;
+        return $this->Rows("$this->tableName 
+            LEFT JOIN `$customer_table_name` 
+                ON `$customer_table_name`.`$customer_col_name` = `$this->tableName`.`recipient_id` 
+                AND `$this->tableName`.`recipient_type` = 'customer' ",
+            "`$this->tableName`.*, IFNULL(`$customer_table_name`.`msg_pref_lang_id`, 1) as language_id",
+            "`$this->tableName`.`status` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10",
+            [0, $type_id]);
+    }
+
+/*    protected function NotSentByType(int $type_id): array
+    {
         [$t, $c] = Customer::obj()->InnerJoinThisTableWithUniqueCols($this->tableName, ['msg_pref_lang_id' => 1]);
         return $this->Rows("$this->tableName $t",
             "`$this->tableName`.*, $c",
             "`$this->tableName`.`status` = ? AND `$this->tableName`.`type_id` = ? ORDER BY `$this->tableName`.`$this->identify_table_id_col_name` ASC LIMIT 10",
             [0, $type_id]);
-    }
+    }*/
 
     public function CronSend(): void
     {
