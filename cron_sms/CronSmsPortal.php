@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2024-07-16
- * Time: 9:30 AM
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.2
+ * @copyright ©2024 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2024-07-16 9:30 AM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/CronSms  view project on GitHub
+ * @Maatify   DB :: CronSms
  */
 
 namespace Maatify\CronSms;

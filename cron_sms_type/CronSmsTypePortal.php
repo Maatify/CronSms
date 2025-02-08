@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2024 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2024-07-15 10:31 AM
@@ -11,8 +11,8 @@
 
 namespace Maatify\CronSmsType;
 
-use App\DB\Handler\ParentClassHandler;
 use Maatify\Json\Json;
+use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
