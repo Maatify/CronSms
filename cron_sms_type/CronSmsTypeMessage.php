@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2024 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2024-07-15 10:31 AM
@@ -12,7 +12,7 @@
 namespace Maatify\CronSmsType;
 
 use App\DB\DBS\DbConnector;
-use App\DB\Tables\DbLanguage;
+use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 
 class CronSmsTypeMessage extends DbConnector
 {
@@ -23,9 +23,9 @@ class CronSmsTypeMessage extends DbConnector
     public const LOGGER_SUB_TYPE            = 'name';
     public const COLS                       =
         [
-            self::IDENTIFY_TABLE_ID_COL_NAME       => 1,
-            DbLanguage::IDENTIFY_TABLE_ID_COL_NAME => 1,
-            'message'                              => 0,
+            self::IDENTIFY_TABLE_ID_COL_NAME          => 1,
+            LanguageTable::IDENTIFY_TABLE_ID_COL_NAME => 1,
+            'message'                                 => 0,
         ];
     public const IMAGE_FOLDER               = self::TABLE_NAME;
 
@@ -50,6 +50,6 @@ class CronSmsTypeMessage extends DbConnector
 
     public function MessageByTypeAndLanguage(int $type_id, int $language_id): string
     {
-        return $this->ColThisTable('message', "`$this->identify_table_id_col_name` = ? AND `" . DbLanguage::IDENTIFY_TABLE_ID_COL_NAME . "` = ?", [$type_id, $language_id]);
+        return $this->ColThisTable('message', "`$this->identify_table_id_col_name` = ? AND `" . LanguageTable::IDENTIFY_TABLE_ID_COL_NAME . "` = ?", [$type_id, $language_id]);
     }
 }

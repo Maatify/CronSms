@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2024 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2024-07-15 10:31 AM
@@ -13,9 +13,9 @@ namespace Maatify\CronSms;
 
 use App\Assist\Encryptions\CronSMSEncryption;
 use App\DB\Tables\Customer\Customer;
-use App\DB\Tables\DbLanguage;
 use App\Services\Providers\Sms\SmsSender;
 use Maatify\CronSmsType\CronSmsTypeMessage;
+use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 
 class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
 {
@@ -67,14 +67,14 @@ class CronSmsMultiLanguageSenderHandler extends CronSmsSenderHandler
                     self::TYPE_OTP =>
                         $this->ReplaceTemplateCode(
                             (CronSmsTypeMessage::obj()->
-                            MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->OTPText()),
+                            MessageByTypeAndLanguage($item['type_id'], $item[LanguageTable::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->OTPText()),
                             (new CronSMSEncryption())->DeHashed($item['message'])
                         ),
 
                     self::TYPE_TEMP_PASSWORD =>
                         $this->ReplaceTemplateCode(
                             (CronSmsTypeMessage::obj()->
-                            MessageByTypeAndLanguage($item['type_id'], $item[DbLanguage::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->TempPasswordText()),
+                            MessageByTypeAndLanguage($item['type_id'], $item[LanguageTable::IDENTIFY_TABLE_ID_COL_NAME])  ? :$this->TempPasswordText()),
                             (new CronSMSEncryption())->DeHashed($item['message'])
                         ),
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2024 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2024-07-15 10:31 AM
@@ -11,8 +11,8 @@
 
 namespace Maatify\CronSmsType;
 
-use App\DB\Handler\SubClassLanguageHandler;
-use App\DB\Tables\DbLanguage;
+use Maatify\LanguagePortalHandler\DBHandler\SubClassLanguageHandler;
+use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -45,7 +45,7 @@ class CronSmsTypeMessagePortal extends SubClassLanguageHandler
 
     protected array $cols_to_filter = [
         [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
-        [DbLanguage::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
+        [LanguageTable::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         ['message', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
     ];
 
