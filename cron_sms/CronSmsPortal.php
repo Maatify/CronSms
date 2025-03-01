@@ -12,6 +12,7 @@
 namespace Maatify\CronSms;
 
 use App\DB\DBS\DbPortalHandler;
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\Json\Json;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
@@ -51,7 +52,7 @@ class CronSmsPortal extends DbPortalHandler
         return self::$instance;
     }
 
-    public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
+    #[NoReturn] public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
     {
         [$tables, $cols] = $this->HandleThisTableJoins();
         $where_to_add = '';
@@ -96,7 +97,7 @@ class CronSmsPortal extends DbPortalHandler
         );
     }
 
-    public function CronSmsInitialize(): void
+    #[NoReturn] public function CronSmsInitialize(): void
     {
         Json::Success(CronSms::ALL_TYPES_NAME, line: $this->class_name . __LINE__);
     }
