@@ -41,16 +41,16 @@ class CronSmsTypePortal extends ParentClassHandler
     protected string $inner_language_name_class = '';
 
     protected array $cols_to_add = [
-        ['type_name', ValidatorConstantsTypes::Col_Name, ValidatorConstantsValidators::Require],
+        ['type_name', ValidatorConstantsTypes::Slug, ValidatorConstantsValidators::Require],
     ];
 
     protected array $cols_to_edit = [
-        ['type_name', ValidatorConstantsTypes::Col_Name, ValidatorConstantsValidators::Optional],
+        ['type_name', ValidatorConstantsTypes::Slug, ValidatorConstantsValidators::Optional],
     ];
 
     protected array $cols_to_filter = [
         [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
-        ['type_name', ValidatorConstantsTypes::Col_Name, ValidatorConstantsValidators::Optional],
+        ['type_name', ValidatorConstantsTypes::Slug, ValidatorConstantsValidators::Optional],
     ];
 
     // to use in add if child classes no have language_id
@@ -71,7 +71,7 @@ class CronSmsTypePortal extends ParentClassHandler
 
     public function Record(): void
     {
-        $type_name = $this->postValidator->Require('type_name', ValidatorConstantsTypes::Col_Name);
+        $type_name = $this->postValidator->Require('type_name', ValidatorConstantsTypes::Slug);
         if($this->RowIsExistThisTable('`type_name` = ? ', [$type_name])){
             Json::Exist('type_name', 'Type Name ' . $type_name . ' Already Exists', $this->class_name . __LINE__);
         }

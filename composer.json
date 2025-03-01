@@ -1,6 +1,6 @@
 {  "name": "maatify/cron-sms",
   "description": "PHP library for Cron SMS handler, known by our team",
-  "version": "2.0.0002",
+  "version": "2.0.0003",
   "type": "library",
   "keywords": [
     "PHP",
